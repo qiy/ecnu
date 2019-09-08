@@ -1,0 +1,5 @@
+# Upgrade pip: pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip
+# Install with: pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
+
+Pillow==6.1.0
+numpy==1.17.2
