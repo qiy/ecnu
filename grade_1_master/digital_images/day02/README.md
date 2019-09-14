@@ -34,7 +34,7 @@ def part_one():
 ```
 
 ![原图](slowdown_source.jpeg)
-![拉伸后的图](slowdown_source.jpeg)
+![拉伸后的图](stretching.jpeg)
 
 ##### - 直方图均衡
 
