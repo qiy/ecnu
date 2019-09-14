@@ -8,7 +8,7 @@ def part_one():
     """
     打开图像，显示图像，存储图像
     """
-    with open("test.jpg", "rb") as fp:
+    with open("source.jpg", "rb") as fp:
         # open image
         im = Image.open(fp)
         print(im.format, im.size, im.mode)
@@ -27,7 +27,7 @@ def part_two():
     对一张图像进行缩放，观察其分辨率
     """
     new_size = 200, 200
-    with open("test.jpg", "rb") as fp:
+    with open("source.jpg", "rb") as fp:
         im = Image.open(fp)
         im.thumbnail(new_size, Image.ANTIALIAS)
         im.show()
@@ -43,16 +43,19 @@ def part_three():
     降低灰度分辨率
     """
     change = lambda x: 0 if x*0.5 < 1 else int(x*0.5)
-    with open("test.jpg", "rb") as fp:
+    with open("source.jpg", "rb") as fp:
         im = Image.open(fp)
         im.show()
+        im = im.convert("L")
+        im.show()
+        im.save("gray.jpg")
 
         pixels = im.load()
         for i in range(im.size[0]): # for every pixel:
             for j in range(im.size[1]):
-                r, g, b = pixels[i, j]
-                pixels[i, j] = change(r), change(g), change(b)
+                pixels[i, j] = change(pixels[i, j])
         im.show()
+        im.save("downing_gray.jpg")
 
 def main():
     part_one()
