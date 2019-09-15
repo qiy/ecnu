@@ -21,14 +21,14 @@ def part_one():
         im = Image.open(fp)
         im.show()
 
-        im_mat = np.asarray(im)
-        rmin = np.min(im_mat)
-        rmax = np.max(im_mat)
-        im_converted_mat = np.empty(im_mat.shape, dtype=np.uint8)
-        for j in range(im_mat.shape[0]):
-            for i in range(im_mat.shape[1]):
-                im_converted_mat[j][i] = (im_mat[j][i] - rmin) / (rmax - rmin) * 255
-        im_converted = Image.fromarray(im_converted_mat)
+        im_arr = np.asarray(im)
+        rmin = np.min(im_arr)
+        rmax = np.max(im_arr)
+        im_converted_arr = np.empty(im_arr.shape, dtype=np.uint8)
+        for j in range(im_arr.shape[0]):
+            for i in range(im_arr.shape[1]):
+                im_converted_arr[j][i] = (im_arr[j][i] - rmin) / (rmax - rmin) * 255
+        im_converted = Image.fromarray(im_converted_arr)
         im_converted.show()
         im_converted.save("stretching.jpeg")
 ```
