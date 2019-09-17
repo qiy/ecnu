@@ -8,6 +8,14 @@ from PIL import Image, ImageEnhance
 3. 对一副图像加噪声，进行平滑，锐化作用。
 '''
 
+def mid(array, wigth, height):
+    new_array = []
+    for i in range(height):
+        for j in range(wigth):
+            new_array.append(array[i][j])
+    print(new_array) 
+    return new_array
+
 def part_one():
     """
     对一副图像加噪声
@@ -43,41 +51,27 @@ def part_two():
             [0, 0, 0],
         ] # 3x3 中值模版
         im_arr = np.asarray(im)
+        im_extend_arr = np.zeros((im_height+2, im_wigth+2))
         im_converted_arr = deepcopy(im_arr)
         for i in range(im_height):
             for j in range(im_wigth):
-                if i == 0 and j == 0:
-                    template = [
-                        [im_arr[i][j], im_arr[i][j], im_arr[i+1][j]],
-                        [im_arr[i][j], 0, im_arr[i+1][j]],
-                        [im_arr[i][j+1], im_arr[i][j+1], im_arr[i+1][j+1]],
-                    ]
-                elif i == 0 and j == im_wigth - 1:
-                    template = [
-                        [im_arr[i][j-1], im_arr[i][j], im_arr[i][j]],
-                        [im_arr[i][j-1], 0, im_arr[i][j]],
-                        [im_arr[i+1][j-1], im_arr[i+1][j], im_arr[i+1][j]],
-                    ]
-                elif j == 0 and i == im_height - 1:
-                    template = [
-                        [im_arr[i-1][j], im_arr[i-1][j], im_arr[i-1][j+1]],
-                        [im_arr[i][j], 0, im_arr[i][j+1]],
-                        [im_arr[i][j], im_arr[i][j], im_arr[i][j+1]],
-                    ]
-                elif i == im_height - 1 and j == im_wigth - 1:
-                    template = [
-                        [im_arr[i-1][j-1], im_arr[i-1][j], im_arr[i-1][j]],
-                        [im_arr[i][j-1], 0, im_arr[i][j]],
-                        [im_arr[i][j-1], im_arr[i][j], im_arr[i][j]],
-                    ]
-                elif i > 0 and i < im_wigth - 1:
-                    template = [
-                        [im_arr[i-1][j], im_arr[i-1][j], im_arr[i-1][j+1]],
-                        [im_arr[i][j], 0, im_arr[i][j+1]],
-                        [im_arr[i][j], im_arr[i][j], im_arr[i][j+1]],
-                    ]
-                template[1][1] = im_arr[i][j]
-                im_converted_arr[i][j] = np.median(template)
+                if i == 0 or j == 0:
+                    im_extend_arr[i][j] = im_arr[i][j]
+
+                if i == im_wigth-1 or j == im_wigth-1:
+                    im_extend_arr[i+2][j+2] = im_arr[i][j]
+                
+                im_extend_arr[i+1][j+1] = im_arr[i][j]
+
+        for i in range(1, im_height+1):
+            for j in range(1, im_wigth+1):
+                template = [
+                    [im_extend_arr[i-1][j-1], im_extend_arr[i-1][j], im_extend_arr[i-1], [j+1]],
+                    [im_extend_arr[i][j-1], im_extend_arr[i][j], im_extend_arr[i][j+1]],
+                    [im_extend_arr[i+1][j-1], im_extend_arr[i+1][j], im_extend_arr[i+1][j+1]],
+                ]
+                print(template)
+                im_converted_arr[i][j] = np.median(mid(template, 3, 3))
 
         im_converted = Image.fromarray(im_converted_arr)
         im.show()
