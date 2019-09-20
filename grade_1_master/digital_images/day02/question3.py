@@ -2,7 +2,8 @@ import numpy as np
 
 from copy import deepcopy
 from random import choice
-from PIL import Image, ImageEnhance
+from PIL import Image, ImageEnhance, ImageFilter
+from scipy import ndimage
 
 '''
 3. 对一副图像加噪声，进行平滑，锐化作用。
@@ -13,7 +14,6 @@ def mid(array, wigth, height):
     for i in range(height):
         for j in range(wigth):
             new_array.append(array[i][j])
-    print(new_array) 
     return new_array
 
 def part_one():
@@ -38,7 +38,7 @@ def part_one():
 
 def part_two():
     """
-    进行平滑(中值滤波处理)
+    进行平滑(中值滤波处理)(❌)
     """
     with open("salt_noise.jpeg", "rb") as fp:
         im = Image.open(fp)
@@ -66,19 +66,41 @@ def part_two():
         for i in range(1, im_height+1):
             for j in range(1, im_wigth+1):
                 template = [
-                    [im_extend_arr[i-1][j-1], im_extend_arr[i-1][j], im_extend_arr[i-1], [j+1]],
+                    [im_extend_arr[i-1][j-1], im_extend_arr[i-1][j], im_extend_arr[i-1][j+1]],
                     [im_extend_arr[i][j-1], im_extend_arr[i][j], im_extend_arr[i][j+1]],
                     [im_extend_arr[i+1][j-1], im_extend_arr[i+1][j], im_extend_arr[i+1][j+1]],
                 ]
-                print(template)
-                im_converted_arr[i][j] = np.median(mid(template, 3, 3))
+                im_converted_arr[i-1][j-1] = np.median(mid(template, 3, 3))
 
         im_converted = Image.fromarray(im_converted_arr)
         im.show()
 
+def part_three():
+    """
+    进行平滑
+    """
+    with open("salt_noise.jpeg", "rb") as fp:
+        im = Image.open(fp)
+        im.show()
+        
+        smoothed_im = im.filter(ImageFilter.SMOOTH)
+        smoothed_im.show()
+
+def part_four():
+    """
+    进行锐化    
+    """
+    with open("salt_noise.jpeg", "rb") as fp:
+        im = Image.open(fp)
+        im.show()
+        
+        smoothed_im = im.filter(ImageFilter.SHARPEN)
+        smoothed_im.show()
+
 def main():
     # part_one()
-    part_two()
+    # part_three()
+    part_four()
 
 if __name__ == "__main__":
     main()
