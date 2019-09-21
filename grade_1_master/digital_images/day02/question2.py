@@ -100,7 +100,9 @@ def part_two():
         im_converted.save("histogramed.jpeg")
 
 def main():
+    # 拉伸其图像
     part_one()
+    # 直方图均衡
     part_two()
 
 if __name__ == "__main__":

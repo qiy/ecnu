@@ -204,6 +204,31 @@ if __name__ == "__main__":
 
 *****
 
-> 参考链接：
+#### 3. 对一副图像加噪声，进行平滑，锐化作用。
 
-- http://accu.cc/
+##### - 对一副图像加噪声(椒盐噪声)
+
+```python
+def part_one_1():
+    """
+    对一副图像加噪声(椒盐噪声)
+    """
+    with open("source2.jpeg", "rb") as fp:
+        im = Image.open(fp).convert("L")
+        im.show()
+        im.save("gray_source2.jpeg")
+
+        im_arr = np.asarray(im)
+        im_converted_arr = deepcopy(im_arr)
+        for i, m in enumerate(im_arr):
+            for j, n in enumerate(m):
+                if n % 5 == 0:
+                    im_converted_arr[i][j] = choice((0, 255))
+
+        im = Image.fromarray(im_converted_arr)
+        im.show()
+        im.save("salt_noise.jpeg")
+```
+
+![原图](gray_source2.jpeg)
+![椒盐噪声后的图片](salt_noise.jpeg)
