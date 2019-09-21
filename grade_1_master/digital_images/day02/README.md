@@ -263,3 +263,41 @@ def part_one_2():
 
 ![原图](gray_source2.jpeg)
 ![高斯噪声后的图片](gauss_noise.jpeg)
+
+##### - 进行平滑
+
+```python
+def part_three():
+    """
+    进行平滑
+    """
+    with open("salt_noise.jpeg", "rb") as fp:
+        im = Image.open(fp)
+        im.show()
+        
+        smoothed_im = im.filter(ImageFilter.SMOOTH)
+        smoothed_im.show()
+        smoothed_im.save("smoothed.jpeg")
+```
+
+![原图](salt_noise.jpeg)
+![平滑后的图片](smoothed.jpeg)
+
+##### - 进行锐化
+
+```python
+def part_four():
+    """
+    进行锐化    
+    """
+    with open("salt_noise.jpeg", "rb") as fp:
+        im = Image.open(fp)
+        im.show()
+        
+        sharpen_im = im.filter(ImageFilter.SHARPEN)
+        sharpen_im.show()
+        sharpen_im.save("sharpen.jpeg")
+```
+
+![原图](salt_noise.jpeg)
+![锐化后的图片](sharpen.jpeg)

@@ -109,6 +109,7 @@ def part_three():
         
         smoothed_im = im.filter(ImageFilter.SMOOTH)
         smoothed_im.show()
+        smoothed_im.save("smoothed.jpeg")
 
 def part_four():
     """
@@ -118,8 +119,9 @@ def part_four():
         im = Image.open(fp)
         im.show()
         
-        smoothed_im = im.filter(ImageFilter.SHARPEN)
-        smoothed_im.show()
+        sharpen_im = im.filter(ImageFilter.SHARPEN)
+        sharpen_im.show()
+        sharpen_im.save("sharpen.jpeg")
 
 def main():
     # 加椒盐噪声
