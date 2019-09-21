@@ -232,3 +232,34 @@ def part_one_1():
 
 ![原图](gray_source2.jpeg)
 ![椒盐噪声后的图片](salt_noise.jpeg)
+
+##### - 对一副图像加噪声(高斯噪声)
+
+```python
+def part_one_2():
+    
+    """
+    对一副图像加噪声(高斯噪声)
+    """
+    with open("source2.jpeg", "rb") as fp:
+        im = Image.open(fp).convert("L")
+        im.show()
+        im.save("gray_source2.jpeg")
+        
+        im_wigth, im_height = im.size
+
+        im_arr = np.asarray(im)
+        # 添加均值为 0, 标准差为 64 的加性高斯白噪声
+        random_arr = np.random.normal(0, 64, (im_height, im_wigth))
+        im_converted_arr = im_arr + random_arr
+        # 对比拉伸
+        im_converted_arr = im_converted_arr - np.full((im_height, im_wigth), np.min(im_converted_arr))
+        im_converted_arr = im_converted_arr * 255 / np.max(im_converted_arr)
+        im_converted_arr = im_converted_arr.astype(np.uint8)
+        im = Image.fromarray(im_converted_arr)
+        im.show()
+        im.save("gauss_noise.jpeg")
+```
+
+![原图](gray_source2.jpeg)
+![高斯噪声后的图片](gauss_noise.jpeg)
