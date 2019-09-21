@@ -16,9 +16,9 @@ def mid(array, wigth, height):
             new_array.append(array[i][j])
     return new_array
 
-def part_one():
+def part_one_1():
     """
-    对一副图像加噪声
+    对一副图像加噪声(椒盐噪声)
     """
     with open("source2.jpeg", "rb") as fp:
         im = Image.open(fp).convert("L")
@@ -35,6 +35,30 @@ def part_one():
         im = Image.fromarray(im_converted_arr)
         im.show()
         im.save("salt_noise.jpeg")
+
+def part_one_2():
+    
+    """
+    对一副图像加噪声(高斯噪声)
+    """
+    with open("source2.jpeg", "rb") as fp:
+        im = Image.open(fp).convert("L")
+        im.show()
+        im.save("gray_source2.jpeg")
+        
+        im_wigth, im_height = im.size
+
+        im_arr = np.asarray(im)
+        # 添加均值为 0, 标准差为 64 的加性高斯白噪声
+        random_arr = np.random.normal(0, 64, (im_height, im_wigth))
+        im_converted_arr = im_arr + random_arr
+        # 对比拉伸
+        im_converted_arr = im_converted_arr - np.full((im_height, im_wigth), np.min(im_converted_arr))
+        im_converted_arr = im_converted_arr * 255 / np.max(im_converted_arr)
+        im_converted_arr = im_converted_arr.astype(np.uint8)
+        im = Image.fromarray(im_converted_arr)
+        im.show()
+        im.save("gauss_noise.jpeg")
 
 def part_two():
     """
@@ -98,8 +122,13 @@ def part_four():
         smoothed_im.show()
 
 def main():
-    # part_one()
-    # part_three()
+    # 加椒盐噪声
+    part_one_1()
+    # 加高斯噪声
+    part_one_2()
+    # 进行平滑
+    part_three()
+    # 进行锐化
     part_four()
 
 if __name__ == "__main__":
